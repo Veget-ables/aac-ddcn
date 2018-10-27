@@ -22,8 +22,4 @@ class EventRepository @Inject constructor(
     fun delete(event: Event) {
         dao.delete(event)
     }
-
-    fun findAll() {
-//        dao.findAll()
-    }
 }

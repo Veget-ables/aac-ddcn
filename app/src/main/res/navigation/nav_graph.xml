@@ -16,15 +16,15 @@
         android:label="top_fragment"
         tools:layout="@layout/top_fragment" >
         <action
-            android:id="@+id/toEventsListFragment"
-            app:destination="@id/eventsListFragment" />
+            android:id="@+id/toEventListFragment"
+            app:destination="@id/eventListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/eventsListFragment"
-        android:name="com.aac.ui.EventsListFragment"
-        android:label="EventsListFragment" >
+        android:id="@+id/eventListFragment"
+        android:name="com.aac.ui.EventListFragment"
+        android:label="EventListFragment">
         <action
-            android:id="@+id/action_eventsListFragment_to_eventFragment"
+            android:id="@+id/action_eventListFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
     </fragment>
     <fragment

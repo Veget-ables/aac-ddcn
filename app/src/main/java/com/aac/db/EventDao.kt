@@ -4,7 +4,7 @@ import android.arch.persistence.room.*
 import com.aac.data.Event
 
 @Dao
-interface EventDao  {
+interface EventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(event: Event): Long
 

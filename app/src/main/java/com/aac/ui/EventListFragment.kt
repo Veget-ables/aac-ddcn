@@ -10,27 +10,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aac.R
-import com.aac.databinding.EventsListFragmentBinding
+import com.aac.databinding.EventListFragmentBinding
 import com.aac.di.Injectable
 import javax.inject.Inject
 
-class EventsListFragment : Fragment(), Injectable {
+class EventListFragment : Fragment(), Injectable {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    val viewModel: EventsListViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventsListViewModel::class.java) }
+    private val viewModel: EventListViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventListViewModel::class.java) }
 
-    lateinit var binding: EventsListFragmentBinding
+    private lateinit var binding: EventListFragmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = DataBindingUtil.inflate(inflater, R.layout.events_list_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.event_list_fragment, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.events.observe(this,
+        viewModel.generateEmails(20)
+        viewModel.emails.observe(this,
                 Observer {
                     it ?: return@Observer
                 })
