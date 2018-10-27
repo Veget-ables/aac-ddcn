@@ -7,6 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RandomUserService {
-    @GET("api?inc=Email&noinfo")
+    @GET("api?inc=gender,name,email&noinfo")
     fun generate(@Query("results") num: Int): Deferred<Response<Result>>
 }

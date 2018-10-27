@@ -3,8 +3,8 @@ package com.aac.ui
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.aac.data.Email
-import com.aac.repository.EmailRepository
+import com.aac.data.User
+import com.aac.repository.UserRepository
 import com.aac.repository.EventRepository
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.GlobalScope
@@ -14,14 +14,14 @@ import javax.inject.Inject
 
 class EventListViewModel @Inject constructor(
         private val eventRepo: EventRepository,
-        private val emailRepo: EmailRepository) : ViewModel() {
-    private var _emails = MutableLiveData<List<Email>>()
-    var emails: LiveData<List<Email>> = _emails
+        private val userRepo: UserRepository) : ViewModel() {
+    private var _users = MutableLiveData<List<User>>()
+    var users: LiveData<List<User>> = _users
 
     fun generateEmails(num: Int) {
         GlobalScope.launch(Dispatchers.Main) {
-            val result = emailRepo.generate(num).await()
-            _emails.postValue(result.body()?.results)
+            val result = userRepo.generate(num).await()
+            _users.postValue(result.body()?.results)
         }
     }
 }

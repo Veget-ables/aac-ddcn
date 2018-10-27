@@ -18,14 +18,13 @@ import com.aac.di.Injectable
 import javax.inject.Inject
 
 class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener {
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    @Inject lateinit var factory: ViewModelProvider.Factory
 
     private val viewModel: EventListViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventListViewModel::class.java) }
 
     private lateinit var binding: EventListFragmentBinding
 
-    private val adapter: EventListAdapter by lazy { EventListAdapter(this) }
+    private val adapter: EventListAdapter = EventListAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -42,11 +41,11 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
         )
 
         viewModel.generateEmails(20)
-        viewModel.emails.observe(this,
-                Observer { mails ->
-                    mails ?: return@Observer
+        viewModel.users.observe(this,
+                Observer { users ->
+                    users ?: return@Observer
 
-                    val list: List<Event> = mails.map { m -> Event(m.email) }
+                    val list: List<Event> = users.map { user -> Event("hoge", user) }
                     adapter.also {
                         it.items.clear()
                         it.items.addAll(list)
@@ -57,6 +56,5 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
 
     override fun onItemClick(view: View, event: Event) {
         Navigation.findNavController(view).navigate(R.id.toEventFragment)
-
     }
 }
