@@ -6,7 +6,9 @@ import android.arch.lifecycle.ViewModel
 import com.aac.data.Email
 import com.aac.repository.EmailRepository
 import com.aac.repository.EventRepository
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
@@ -17,9 +19,8 @@ class EventListViewModel @Inject constructor(
     var emails: LiveData<List<Email>> = _emails
 
     fun generateEmails(num: Int) {
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             val result = emailRepo.generate(num).await()
-            result.body()
             _emails.postValue(result.body()?.results)
         }
     }

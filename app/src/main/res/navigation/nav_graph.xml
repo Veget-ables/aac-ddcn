@@ -14,7 +14,7 @@
         android:id="@+id/topFragment"
         android:name="com.aac.ui.TopFragment"
         android:label="top_fragment"
-        tools:layout="@layout/top_fragment" >
+        tools:layout="@layout/top_fragment">
         <action
             android:id="@+id/toEventListFragment"
             app:destination="@id/eventListFragment" />
@@ -24,7 +24,7 @@
         android:name="com.aac.ui.EventListFragment"
         android:label="EventListFragment">
         <action
-            android:id="@+id/action_eventListFragment_to_eventFragment"
+            android:id="@+id/toEventFragment"
             app:destination="@id/eventFragment" />
     </fragment>
     <fragment
