@@ -40,7 +40,7 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
                 false
         )
 
-        viewModel.generateEmails(20)
+        viewModel.reloadUsers(20)
         viewModel.users.observe(this,
                 Observer { users ->
                     users ?: return@Observer
