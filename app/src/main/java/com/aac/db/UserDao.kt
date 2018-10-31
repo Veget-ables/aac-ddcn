@@ -9,9 +9,15 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertUsers(user: List<User>)
+
     @Delete
     fun delete(user: User)
 
     @Query("SELECT * FROM user LIMIT :num")
     fun find(num : Int) : LiveData<List<User>>
+
+    @Query("SELECT * FROM user")
+    fun findAll() : LiveData<List<User>>
 }

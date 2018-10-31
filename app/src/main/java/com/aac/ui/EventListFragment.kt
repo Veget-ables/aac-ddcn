@@ -18,7 +18,8 @@ import com.aac.di.Injectable
 import javax.inject.Inject
 
 class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener {
-    @Inject lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
 
     private val viewModel: EventListViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventListViewModel::class.java) }
 
@@ -40,18 +41,16 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
                 false
         )
 
-        viewModel.reloadUsers(20)
-        viewModel.users.observe(this,
-                Observer { users ->
-                    users ?: return@Observer
-
-                    val list: List<Event> = users.map { user -> Event("hoge", user) }
-                    adapter.also {
-                        it.items.clear()
-                        it.items.addAll(list)
-                        it.notifyDataSetChanged()
-                    }
-                })
+        viewModel.users.observe(this, Observer { users ->
+            users ?: return@Observer
+            val list: List<Event> = users.results.map { user -> Event(user.email, user) }
+            adapter.also {
+                it.items.clear()
+                it.items.addAll(list)
+                it.notifyDataSetChanged()
+            }
+        })
+        viewModel.userId.value = (Math.random() * 100.0).toInt()
     }
 
     override fun onItemClick(view: View, event: Event) {
