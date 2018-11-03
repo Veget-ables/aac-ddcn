@@ -6,7 +6,7 @@ import com.aac.api.RandomUserService
 import com.aac.db.EventDao
 import com.aac.db.SampleDb
 import com.aac.db.UserDao
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -22,7 +22,7 @@ class AppModule {
         return Retrofit.Builder()
                 .baseUrl("https://randomuser.me/")
                 .addConverterFactory(MoshiConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
                 .create(RandomUserService::class.java)
     }

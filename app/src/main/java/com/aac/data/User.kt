@@ -4,13 +4,13 @@ import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
 
 @Entity(
-        primaryKeys = ["gender"]
+        primaryKeys = ["email"]
 )
 data class User(
-        val gender: String,
+        var gender: String,
         @field:Embedded(prefix = "name_")
         val name: Name,
-        val email: String) {
+        val email: String ) {
 
     data class Name(val title: String, val first: String, val last: String)
 }

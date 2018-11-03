@@ -15,9 +15,19 @@ import com.aac.R
 import com.aac.data.Event
 import com.aac.databinding.EventListFragmentBinding
 import com.aac.di.Injectable
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.Job
 import javax.inject.Inject
+import kotlin.coroutines.experimental.CoroutineContext
 
-class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener {
+class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener, CoroutineScope {
+
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Default + job
+
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
@@ -30,6 +40,7 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.event_list_fragment, container, false)
+        binding.fragment = this
         return binding.root
     }
 
@@ -43,17 +54,25 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
 
         viewModel.users.observe(this, Observer { users ->
             users ?: return@Observer
-            val list: List<Event> = users.results.map { user -> Event(user.email, user) }
+            val list: List<Event> = users.map { user -> Event(user.email, user) }
             adapter.also {
                 it.items.clear()
                 it.items.addAll(list)
                 it.notifyDataSetChanged()
             }
         })
-        viewModel.userId.value = (Math.random() * 100.0).toInt()
     }
 
     override fun onItemClick(view: View, event: Event) {
         Navigation.findNavController(view).navigate(R.id.toEventFragment)
+    }
+
+    fun onSaveClick(view: View) {
+        viewModel.refreshUsers(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }
