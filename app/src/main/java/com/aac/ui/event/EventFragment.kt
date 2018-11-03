@@ -1,4 +1,4 @@
-package com.aac.ui
+package com.aac.ui.event
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -10,10 +10,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 import com.aac.R
-import com.aac.data.Event
-import com.aac.databinding.EventListFragmentBinding
+import com.aac.data.User
+import com.aac.databinding.EventFragmentBinding
 import com.aac.di.Injectable
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Dispatchers
@@ -21,8 +20,7 @@ import kotlinx.coroutines.experimental.Job
 import javax.inject.Inject
 import kotlin.coroutines.experimental.CoroutineContext
 
-class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener, CoroutineScope {
-
+class EventFragment : Fragment(), Injectable, CoroutineScope, UserListAdapter.UserClickListener {
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
@@ -31,44 +29,43 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private val viewModel: EventListViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventListViewModel::class.java) }
+    private val viewModel: EventViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventViewModel::class.java) }
 
-    private lateinit var binding: EventListFragmentBinding
+    private lateinit var binding: EventFragmentBinding
+    private val adapter: UserListAdapter = UserListAdapter(this)
 
-    private val adapter: EventListAdapter = EventListAdapter(this)
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        binding = DataBindingUtil.inflate(inflater, R.layout.event_list_fragment, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.event_fragment, container, false)
         binding.fragment = this
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.eventRecyclerView.adapter = adapter
-        binding.eventRecyclerView.layoutManager = LinearLayoutManager(context,
+
+        val args = EventFragmentArgs.fromBundle(arguments)
+        binding.eventTitle.text = args.title
+
+        binding.userRecyclerView.adapter = adapter
+        binding.userRecyclerView.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.VERTICAL,
                 false
         )
 
-        viewModel.users.observe(this, Observer { users ->
-            users ?: return@Observer
-            val list: List<Event> = users.map { user -> Event(user.email, user) }
-            adapter.also {
+        viewModel.users.observe(this, Observer{users->
+            adapter.also{
+                users?: return@Observer
                 it.items.clear()
-                it.items.addAll(list)
+                it.items.addAll(users)
                 it.notifyDataSetChanged()
             }
         })
+
+        viewModel.eventId.value = (Math.random()*10).toInt()
     }
 
-    override fun onItemClick(view: View, event: Event) {
-        Navigation.findNavController(view).navigate(R.id.toEventFragment)
-    }
-
-    fun onSaveClick(view: View) {
-        viewModel.refreshUsers(this)
+    override fun onItemClick(view: View, user: User) {
     }
 
     override fun onDestroy() {
