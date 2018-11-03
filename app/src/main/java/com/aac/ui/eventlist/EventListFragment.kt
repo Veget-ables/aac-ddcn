@@ -1,4 +1,4 @@
-package com.aac.ui
+package com.aac.ui.eventlist
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -52,23 +52,22 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
                 false
         )
 
-        viewModel.users.observe(this, Observer { users ->
-            users ?: return@Observer
-            val list: List<Event> = users.map { user -> Event(user.email, user) }
+        viewModel.events.observe(this, Observer { events ->
             adapter.also {
+                events ?: return@Observer
                 it.items.clear()
-                it.items.addAll(list)
+                it.items.addAll(events)
                 it.notifyDataSetChanged()
             }
         })
     }
 
-    override fun onItemClick(view: View, event: Event) {
-        Navigation.findNavController(view).navigate(R.id.toEventFragment)
+    fun onAddClick(view: View) {
+        viewModel.addEvent(this)
     }
 
-    fun onSaveClick(view: View) {
-        viewModel.refreshUsers(this)
+    override fun onItemClick(view: View, event: Event) {
+        Navigation.findNavController(view).navigate(R.id.toEventFragment)
     }
 
     override fun onDestroy() {

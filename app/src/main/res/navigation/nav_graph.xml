@@ -12,7 +12,7 @@
         tools:layout="@layout/main_activity" />
     <fragment
         android:id="@+id/topFragment"
-        android:name="com.aac.ui.TopFragment"
+        android:name="com.aac.ui.login.TopFragment"
         android:label="top_fragment"
         tools:layout="@layout/top_fragment">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/eventListFragment"
-        android:name="com.aac.ui.EventListFragment"
+        android:name="com.aac.ui.eventlist.EventListFragment"
         android:label="EventListFragment">
         <action
             android:id="@+id/toEventFragment"
@@ -29,6 +29,6 @@
     </fragment>
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.aac.ui.EventFragment"
+        android:name="com.aac.ui.event.EventFragment"
         android:label="EventFragment" />
 </navigation>

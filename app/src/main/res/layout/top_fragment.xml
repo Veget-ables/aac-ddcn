@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="topFragment" type="com.aac.ui.TopFragment" />
+        <variable name="topFragment" type="com.aac.ui.login.TopFragment" />
     </data>
 
 <android.support.constraint.ConstraintLayout

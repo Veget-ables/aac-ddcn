@@ -1,4 +1,4 @@
-package com.aac.ui
+package com.aac.ui.login
 
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
