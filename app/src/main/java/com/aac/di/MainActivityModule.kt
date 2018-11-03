@@ -1,6 +1,7 @@
 package com.aac.di
 
-import com.aac.ui.EventsListFragment
+import com.aac.ui.event.EventFragment
+import com.aac.ui.eventlist.EventListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -9,5 +10,8 @@ import dagger.android.ContributesAndroidInjector
 abstract class MainActivityModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeEventsListFragment(): EventsListFragment
+    abstract fun contributeEventListFragment(): EventListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEventFragment(): EventFragment
 }

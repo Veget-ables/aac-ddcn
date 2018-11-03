@@ -20,18 +20,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="eventsListFragment">
+                  <entry key="eventListFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="304" />
-                            <option name="y" value="344" />
+                            <option name="x" value="318" />
+                            <option name="y" value="345" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_eventsListFragment_to_eventFragment">
+                            <entry key="action_eventListFragment_to_eventFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -64,7 +64,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="toEventsListFragment">
+                            <entry key="toEventListFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

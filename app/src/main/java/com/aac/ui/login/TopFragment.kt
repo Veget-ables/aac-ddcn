@@ -1,4 +1,4 @@
-package com.aac.ui
+package com.aac.ui.login
 
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
@@ -12,7 +12,7 @@ import com.aac.R
 import com.aac.databinding.TopFragmentBinding
 
 class TopFragment : Fragment() {
-    lateinit var binding: TopFragmentBinding
+    private lateinit var binding: TopFragmentBinding
     private lateinit var viewModel: TopViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -25,11 +25,10 @@ class TopFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(TopViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     fun onLoginClick(view: View) {
-        Navigation.findNavController(view).navigate(R.id.toEventsListFragment)
+        Navigation.findNavController(view).navigate(R.id.toEventListFragment)
     }
 
 }

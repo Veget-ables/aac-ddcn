@@ -2,17 +2,19 @@ package com.aac.repository
 
 import com.aac.data.Event
 import com.aac.db.EventDao
-import com.aac.db.SampleDb
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EventRepository @Inject constructor(
-        private val db: SampleDb,
         private val dao: EventDao) {
 
-    fun insert(event: Event): Long {
-        return dao.insert(event)
+    fun insertEvent(scope: CoroutineScope, event: Event) {
+        scope.launch {
+            dao.insert(event)
+        }
     }
 
     fun update(event: Event) {
@@ -23,7 +25,5 @@ class EventRepository @Inject constructor(
         dao.delete(event)
     }
 
-    fun findAll() {
-//        dao.findAll()
-    }
+    fun findAll() = dao.findAll()
 }
