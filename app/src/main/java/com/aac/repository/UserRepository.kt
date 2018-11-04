@@ -1,6 +1,7 @@
 package com.aac.repository
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import com.aac.api.RandomUserService
 import com.aac.api.SuggestionUser
 import com.aac.data.User

@@ -21,7 +21,7 @@ class EventFragment : Fragment(), Injectable, UserListAdapter.UserClickListener 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
-    private val viewModel: EventViewModel by lazy { ViewModelProviders.of(activity!!, factory).get(EventViewModel::class.java) }
+    private val viewModel: EventViewModel by lazy { ViewModelProviders.of(this, factory).get(EventViewModel::class.java) }
 
     private lateinit var binding: EventFragmentBinding
     private val adapter: UserListAdapter = UserListAdapter(this)
@@ -46,6 +46,8 @@ class EventFragment : Fragment(), Injectable, UserListAdapter.UserClickListener 
                 LinearLayoutManager.VERTICAL,
                 false
         )
+
+        viewModel.updateSuggestionUsers()
     }
 
     private fun initObservers() {
@@ -66,5 +68,11 @@ class EventFragment : Fragment(), Injectable, UserListAdapter.UserClickListener 
 
     override fun onItemClick(view: View, user: SuggestionUser) {
         viewModel.addUser2Event(user)
+        adapter.items.remove(user)
+        adapter.notifyDataSetChanged()
+    }
+
+    fun onUpdateClick(view: View){
+        viewModel.updateSuggestionUsers()
     }
 }

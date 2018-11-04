@@ -15,7 +15,9 @@ class EventViewModel @Inject constructor(private val userRepo: UserRepository)
 
     val eventId = MutableLiveData<Int>()
 
-    val suggestionUsers: LiveData<List<SuggestionUser>> = Transformations.switchMap(eventId) {
+    private var updateCount = MutableLiveData<Int>()
+
+    var suggestionUsers: LiveData<List<SuggestionUser>> = Transformations.switchMap(updateCount) {
         userRepo.suggestUsers(5)
     }
 
@@ -27,5 +29,9 @@ class EventViewModel @Inject constructor(private val userRepo: UserRepository)
         launch {
             userRepo.addEvent2User(it, user)
         }
+    }
+
+    fun updateSuggestionUsers() {
+        updateCount.value = updateCount.value?.plus(1)
     }
 }
