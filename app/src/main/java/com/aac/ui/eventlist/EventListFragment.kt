@@ -15,19 +15,9 @@ import com.aac.R
 import com.aac.data.Event
 import com.aac.databinding.EventListFragmentBinding
 import com.aac.di.Injectable
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.Job
 import javax.inject.Inject
-import kotlin.coroutines.experimental.CoroutineContext
 
-class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener, CoroutineScope {
-
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
-
+class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickListener {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
@@ -63,7 +53,7 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
     }
 
     fun onAddClick(view: View) {
-        viewModel.addEvent(this)
+        viewModel.addEvent()
     }
 
     override fun onItemClick(view: View, event: Event) {
@@ -71,10 +61,5 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
             setTitle(event.title)
         }
         Navigation.findNavController(view).navigate(direction)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
     }
 }

@@ -16,8 +16,11 @@ interface UserDao {
     fun delete(user: User)
 
     @Query("SELECT * FROM user LIMIT :num")
-    fun find(num: Int): LiveData<List<User>>
+    fun findUsers(num: Int): LiveData<List<User>>
 
     @Query("SELECT * FROM user")
     fun findAll(): LiveData<List<User>>
+
+    @Query("SELECT * FROM user WHERE eventId =:id")
+    fun findEventUsers(id: Long): LiveData<List<User>>
 }

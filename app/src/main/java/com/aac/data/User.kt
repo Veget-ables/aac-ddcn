@@ -7,10 +7,12 @@ import android.arch.persistence.room.Entity
         primaryKeys = ["email"]
 )
 data class User(
+        var id: Long,
+        var eventId: Long,
         var gender: String,
         @field:Embedded(prefix = "name_")
         val name: Name,
-        val email: String ) {
+        val email: String) {
 
     data class Name(val title: String, val first: String, val last: String)
 }

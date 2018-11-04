@@ -11,20 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aac.R
-import com.aac.data.User
+import com.aac.api.SuggestionUser
 import com.aac.databinding.EventFragmentBinding
 import com.aac.di.Injectable
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.Job
 import javax.inject.Inject
-import kotlin.coroutines.experimental.CoroutineContext
 
-class EventFragment : Fragment(), Injectable, CoroutineScope, UserListAdapter.UserClickListener {
-    private val job = Job()
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Default + job
+class EventFragment : Fragment(), Injectable, UserListAdapter.UserClickListener {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -53,23 +45,21 @@ class EventFragment : Fragment(), Injectable, CoroutineScope, UserListAdapter.Us
                 false
         )
 
-        viewModel.users.observe(this, Observer{users->
-            adapter.also{
-                users?: return@Observer
+        viewModel.suggestionUsers.observe(this, Observer { users ->
+            adapter.also {
+                users ?: return@Observer
                 it.items.clear()
                 it.items.addAll(users)
                 it.notifyDataSetChanged()
             }
         })
 
-        viewModel.eventId.value = (Math.random()*10).toInt()
+        viewModel.joinedUsers.observe(this, Observer { users ->
+        })
+
+        viewModel.eventId.value = (Math.random() * 10).toLong()
     }
 
-    override fun onItemClick(view: View, user: User) {
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        job.cancel()
+    override fun onItemClick(view: View, user: SuggestionUser) {
     }
 }

@@ -1,6 +1,5 @@
 package com.aac.api
 
-import com.aac.data.Result
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Query
