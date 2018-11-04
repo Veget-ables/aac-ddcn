@@ -35,5 +35,10 @@
             android:name="title"
             android:defaultValue="unknown"
             app:type="string" />
+        <argument
+            android:name="eventId"
+            android:defaultValue="0"
+            app:type="integer" />
+
     </fragment>
 </navigation>

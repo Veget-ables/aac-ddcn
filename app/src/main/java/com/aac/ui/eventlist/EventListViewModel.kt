@@ -12,15 +12,15 @@ class EventListViewModel @Inject constructor(private val eventRepo: EventReposit
     val events = eventRepo.findAll()
 
     fun addEvent() {
-        val id = (Math.random() * 1000).toLong()
+        val id = (Math.random() * 1000).toInt()
         val event = Event(
                 id = id,
                 title = "No:$id",
                 user = User(
-                        id = (Math.random() * 10000).toLong(),
                         eventId = id,
                         gender = "male",
-                        name = User.Name("hoge", "hoge", "hoge"),
+                        firstName = "hoge",
+                        lastName = "hoge",
                         email = "hoge@example.com")
         )
         eventRepo.insertEvent(this, event)

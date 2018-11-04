@@ -35,16 +35,20 @@ class EventFragment : Fragment(), Injectable, UserListAdapter.UserClickListener 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initObservers()
 
         val args = EventFragmentArgs.fromBundle(arguments)
         binding.eventTitle.text = args.title
+        viewModel.eventId.value = args.eventId
 
         binding.userRecyclerView.adapter = adapter
         binding.userRecyclerView.layoutManager = LinearLayoutManager(context,
                 LinearLayoutManager.VERTICAL,
                 false
         )
+    }
 
+    private fun initObservers() {
         viewModel.suggestionUsers.observe(this, Observer { users ->
             adapter.also {
                 users ?: return@Observer
@@ -54,12 +58,13 @@ class EventFragment : Fragment(), Injectable, UserListAdapter.UserClickListener 
             }
         })
 
-        viewModel.joinedUsers.observe(this, Observer { users ->
+        viewModel.participants.observe(this, Observer { users ->
+            users ?: return@Observer
+            binding.tvNumberOfParticipants.text = users.size.toString()
         })
-
-        viewModel.eventId.value = (Math.random() * 10).toLong()
     }
 
     override fun onItemClick(view: View, user: SuggestionUser) {
+        viewModel.addUser2Event(user)
     }
 }

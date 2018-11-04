@@ -7,18 +7,25 @@ import com.aac.api.SuggestionUser
 import com.aac.data.User
 import com.aac.repository.UserRepository
 import com.aac.ui.ScopedViewModel
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class EventViewModel @Inject constructor(private val userRepo: UserRepository)
     : ScopedViewModel() {
 
-    val eventId = MutableLiveData<Long>()
+    val eventId = MutableLiveData<Int>()
 
     val suggestionUsers: LiveData<List<SuggestionUser>> = Transformations.switchMap(eventId) {
         userRepo.suggestUsers(5)
     }
 
-    val joinedUsers: LiveData<List<User>> = Transformations.switchMap(eventId) {
+    val participants: LiveData<List<User>> = Transformations.switchMap(eventId) {
         userRepo.findUsers(it)
+    }
+
+    fun addUser2Event(user: SuggestionUser) = eventId.value?.let {
+        launch {
+            userRepo.addEvent2User(it, user)
+        }
     }
 }

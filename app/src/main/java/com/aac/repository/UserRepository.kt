@@ -3,6 +3,7 @@ package com.aac.repository
 import android.arch.lifecycle.LiveData
 import com.aac.api.RandomUserService
 import com.aac.api.SuggestionUser
+import com.aac.data.User
 import com.aac.db.UserDao
 import com.aac.util.toLiveData
 import io.reactivex.Flowable
@@ -21,6 +22,16 @@ class UserRepository @Inject constructor(
             .map { it.results }
             .toLiveData()
 
-    fun findUsers(eventId: Long) = userDao.findEventUsers(eventId)
+    fun findUsers(eventId: Int) = userDao.findEventUsers(eventId)
 
+    fun addEvent2User(eventId: Int, user: SuggestionUser) {
+        val participant = User(
+                eventId = eventId,
+                gender = user.gender,
+                firstName = user.name.first,
+                lastName = user.name.last,
+                email = user.email
+        )
+        userDao.insert(participant)
+    }
 }

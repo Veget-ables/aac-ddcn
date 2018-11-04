@@ -22,5 +22,5 @@ interface UserDao {
     fun findAll(): LiveData<List<User>>
 
     @Query("SELECT * FROM user WHERE eventId =:id")
-    fun findEventUsers(id: Long): LiveData<List<User>>
+    fun findEventUsers(id: Int): LiveData<List<User>>
 }

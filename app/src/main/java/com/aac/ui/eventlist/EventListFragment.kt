@@ -59,6 +59,7 @@ class EventListFragment : Fragment(), Injectable, EventListAdapter.EventClickLis
     override fun onItemClick(view: View, event: Event) {
         val direction = EventListFragmentDirections.toEventFragment().apply {
             setTitle(event.title)
+            setEventId(event.id)
         }
         Navigation.findNavController(view).navigate(direction)
     }

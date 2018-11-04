@@ -7,7 +7,7 @@ import android.arch.persistence.room.Entity
         primaryKeys = ["id"]
 )
 data class Event(
-        var id: Long,
+        var id: Int,
         val title: String,
         @field:Embedded(prefix = "user_")
         val user: User)
