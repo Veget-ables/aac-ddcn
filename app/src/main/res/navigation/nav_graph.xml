@@ -30,5 +30,15 @@
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.aac.ui.event.EventFragment"
-        android:label="EventFragment" />
+        android:label="EventFragment">
+        <argument
+            android:name="title"
+            android:defaultValue="unknown"
+            app:type="string" />
+        <argument
+            android:name="eventId"
+            android:defaultValue="0"
+            app:type="integer" />
+
+    </fragment>
 </navigation>

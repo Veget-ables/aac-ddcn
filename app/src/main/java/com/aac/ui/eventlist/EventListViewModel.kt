@@ -1,26 +1,29 @@
 package com.aac.ui.eventlist
 
-import android.arch.lifecycle.ViewModel
 import com.aac.data.Event
 import com.aac.data.User
 import com.aac.repository.EventRepository
-import kotlinx.coroutines.experimental.CoroutineScope
+import com.aac.ui.ScopedViewModel
 import javax.inject.Inject
 
 class EventListViewModel @Inject constructor(private val eventRepo: EventRepository)
-    : ViewModel() {
+    : ScopedViewModel() {
 
     val events = eventRepo.findAll()
 
-    fun addEvent(scope: CoroutineScope) {
+    fun addEvent() {
+        val id = (Math.random() * 1000).toInt()
         val event = Event(
-                title = "No:" + (Math.random() * 1000).toInt().toString(),
+                id = id,
+                title = "No:$id",
                 user = User(
+                        eventId = id,
                         gender = "male",
-                        name = User.Name("hoge", "hoge", "hoge"),
+                        firstName = "hoge",
+                        lastName = "hoge",
                         email = "hoge@example.com")
         )
-        eventRepo.insertEvent(scope, event)
+        eventRepo.insertEvent(this, event)
     }
 
 }

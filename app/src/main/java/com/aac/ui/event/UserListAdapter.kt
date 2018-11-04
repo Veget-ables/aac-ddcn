@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aac.R
-import com.aac.data.User
+import com.aac.api.SuggestionUser
 import com.aac.databinding.UserItemBinding
 
 class UserListAdapter(private val lister: UserClickListener) : RecyclerView.Adapter<UserListAdapter.UserItemHolder>() {
 
-    val items: MutableList<User> = mutableListOf()
+    val items: MutableList<SuggestionUser> = mutableListOf()
 
     override fun getItemCount() = items.size
 
@@ -38,7 +38,7 @@ class UserListAdapter(private val lister: UserClickListener) : RecyclerView.Adap
     }
 
     interface UserClickListener{
-        fun onItemClick(view: View, user: User)
+        fun onItemClick(view: View, user: SuggestionUser)
     }
 
     class UserItemHolder(val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root)
